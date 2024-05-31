@@ -71,10 +71,11 @@ const addPlayer = (playerName, playerTeam, playerSport, button) => {
         CNT += 1;
         playerCount.innerText = `${cnt += 1}`;
         const playerAddName = document.createElement("div");
+        playerAddName.classList.add("mb-2")
         playerAddName.innerHTML = `
-            <h4>${playerName}</h4>
-            <h6>Team: ${playerTeam}</h6>
-            <h6>Sport: ${playerSport}</h6>
+            <h4 class="text-danger" >${playerName}</h4>
+            <p id="g-des">Team: ${playerTeam}</p>
+            <p id="g-des">Sport: ${playerSport}</p>
         `;
         button.innerText = "Added";
         button.style.color = "black"

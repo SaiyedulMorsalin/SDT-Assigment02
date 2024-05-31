@@ -50,3 +50,7 @@
 .p-cont {
     position: relative;
 }
+
+#g-des {
+    font-size: 12px !important;
+}
