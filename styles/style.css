@@ -42,8 +42,9 @@
 
 
 
-.side {
-  
+.social a {
+    cursor: pointer;
+    width: 20px;
 }
 
 .p-cont {

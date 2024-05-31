@@ -29,8 +29,10 @@ const defaultDataDisplay = (players, isDefault) => {
     defaultDataContainer.classList.add("p-2");
     if (isDefault) {
         players = players.slice(0, 12);
+
     }
     players.forEach(player => {
+        console.log(player);
         const dataItem = document.createElement("div");
         dataItem.classList.add("col-md-3", "p-2");
         const playerDescription = player.strDescriptionEN ? player.strDescriptionEN.slice(0, 50) : "No Data Found";
@@ -90,12 +92,12 @@ const viewDetails = async (pId,pName)=>{
     let data = await res.json();
     const player = data.players[0];
     // showModalDetails(player)
-    showPhoneDetails(player)
+    showPhoneDetails(player);
     
 }
 
 const showPhoneDetails = (player) => {
-    console.log(player);
+    // console.log(player);
     const pName = document.getElementById('show-detail-name');
     pName.innerText = player.strPlayer ? player.strPlayer : "No Name Found";
     const pDescription = player.strDescriptionEN ? player.strDescriptionEN.slice(0, 250) : "No Data Found";
@@ -104,7 +106,10 @@ const showPhoneDetails = (player) => {
     const pSport = player.strSport ? player.strSport : "No Data Found";
     const pImage = player.strThumb ? player.strThumb : "https://st3.depositphotos.com/9998432/13335/v/450/depositphotos_133351928-stock-illustration-default-placeholder-man-and-woman.jpg";
     const showDetailContainer = document.getElementById('show-detail-container');
-
+    const pInstra = player.strInstagram ? player.strInstagram:"#";
+    const pFace = player.strFacebook ? player.strFacebook    :"#";
+    const pTwitter = player.strTwitter? player.strTwitter:"#";
+    // console.log("social",pInstra,typeof pInstra)
     showDetailContainer.innerHTML = `
         <img src="${pImage}" alt="" />
         <h6 class="mt-2">Nationality: ${pNationality}</h6>
@@ -112,6 +117,11 @@ const showPhoneDetails = (player) => {
         <h6>Sport: ${pSport}</h6>
         <h6>Salary: ${player.strWage ? player.strWage : "No Data Found"}</h6>
         <p class="card-text py-2">${pDescription}</p>
-    `
+        <div class="social d-flex gap-3 align-items-center">
+        <a target ="_blank" href="${pFace}"><i class="fa-brands fa-facebook"></i></a>
+        <a target ="_blank" href="${pInstra}"><i class="fa-brands fa-instagram"></i></a>
+        <a target ="_blank" href="${pTwitter}"><i class="fa-brands fa-square-twitter"></i></a>
+        </div>
+    `;
     show_details_modal.showModal();
 }
