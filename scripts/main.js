@@ -32,7 +32,7 @@ const defaultDataDisplay = (players, isDefault) => {
 
     }
     players.forEach(player => {
-        console.log(player);
+        // console.log(player);
         const dataItem = document.createElement("div");
         dataItem.classList.add("col-md-3", "p-2");
         const playerDescription = player.strDescriptionEN ? player.strDescriptionEN.slice(0, 50) : "No Data Found";
@@ -52,7 +52,7 @@ const defaultDataDisplay = (players, isDefault) => {
                 <h6>Sport: ${pSport}</h6>
                 <h6>Salary: ${player.strWage ? player.strWage : "No Data Found"}</h6>
                 <p class="card-text">${playerDescription}</p>
-                <button onclick="viewDetails(${pId},'${pName}')" type="button" class="btn btn-primary">
+                <button onclick="viewDetails(${pId})" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
                     Details
                 </button>
                 <button id="add-btn" class="btn btn-primary" onclick="addPlayer('${pName}', '${pTeam}', '${pSport}', this)">Add Player</button>
@@ -87,32 +87,26 @@ const addPlayer = (playerName, playerTeam, playerSport, button) => {
     }
 }
 
-const viewDetails = async (pId,pName)=>{
-    
+const viewDetails = async (pId) => {
+
     const res = await fetch(`https://www.thesportsdb.com/api/v1/json/3/lookupplayer.php?id=${pId}`);
     let data = await res.json();
     const player = data.players[0];
-    // showModalDetails(player)
-    showPhoneDetails(player);
-    
-}
+    console.log(player)
+    if (player) {
+        const pDescription = player.strDescriptionEN ? player.strDescriptionEN.slice(0, 250) : "No Data Found";
+        const pNationality = player.strNationality ? player.strNationality : "No Data Found";
+        const pTeam = player.strTeam ? player.strTeam : "No Data Found";
+        const pSport = player.strSport ? player.strSport : "No Data Found";
+        const pImage = player.strThumb ? player.strThumb : "https://st3.depositphotos.com/9998432/13335/v/450/depositphotos_133351928-stock-illustration-default-placeholder-man-and-woman.jpg";
+        const showDetailContainer = document.getElementById('show-detail-container');
+        const pInstra = player.strInstagram ? player.strInstagram : "#";
+        const pFace = player.strFacebook ? player.strFacebook : "#";
+        const pTwitter = player.strTwitter ? player.strTwitter : "#";
+        showDetailContainer.innerHTML = `
 
-const showPhoneDetails = (player) => {
-    // console.log(player);
-    const pName = document.getElementById('show-detail-name');
-    pName.innerText = player.strPlayer ? player.strPlayer : "No Name Found";
-    const pDescription = player.strDescriptionEN ? player.strDescriptionEN.slice(0, 250) : "No Data Found";
-    const pNationality = player.strNationality ? player.strNationality : "No Data Found";
-    const pTeam = player.strTeam ? player.strTeam : "No Data Found";
-    const pSport = player.strSport ? player.strSport : "No Data Found";
-    const pImage = player.strThumb ? player.strThumb : "https://st3.depositphotos.com/9998432/13335/v/450/depositphotos_133351928-stock-illustration-default-placeholder-man-and-woman.jpg";
-    const showDetailContainer = document.getElementById('show-detail-container');
-    const pInstra = player.strInstagram ? player.strInstagram:"#";
-    const pFace = player.strFacebook ? player.strFacebook    :"#";
-    const pTwitter = player.strTwitter? player.strTwitter:"#";
-    // console.log("social",pInstra,typeof pInstra)
-    showDetailContainer.innerHTML = `
-        <img src="${pImage}" alt="" />
+        <img class="w-100" src="${pImage}" alt="Player Image..." />
+        <h1 id="">${player.strPlayer ? player.strPlayer : "No Name Found"}</h1>
         <h6 class="mt-2">Nationality: ${pNationality}</h6>
         <h6>Team: ${pTeam}</h6>
         <h6>Sport: ${pSport}</h6>
@@ -124,5 +118,9 @@ const showPhoneDetails = (player) => {
         <a target ="_blank" href="${pTwitter}"><i class="fa-brands fa-square-twitter"></i></a>
         </div>
     `;
-    show_details_modal.showModal();
+
+
+    }
+
 }
+
